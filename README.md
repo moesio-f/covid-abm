@@ -16,6 +16,10 @@ Uma etapa crucial na aplicação e uso de tais modelos é a **calibração** de 
 
 Uma abordagem recente na literatura para a etapa de calibração consistem em utilizar algoritmos evolucionários no lugar da calibração manual.
 
+# OpenABM-Covid19
+
+O Open-ABM-Covid19 é um modelo baseado em agentes desenvolvido para simular a transmissão e contágio de COVID-19 em uma cidade. O principal objetivo é permitir a análise dos efeitos de medidas ativas e passivas para o controle da doença. O modelo possui uma série de parâmetros que podem ser alterados para melhor descrever a situação de uma cidade.
+
 # Algoritmos Escolhidos
 
 TODO
