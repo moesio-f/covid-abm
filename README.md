@@ -16,6 +16,18 @@ Uma etapa crucial na aplicação e uso de tais modelos é a **calibração** de 
 
 Uma abordagem recente na literatura para a etapa de calibração consistem em utilizar algoritmos evolucionários no lugar da calibração manual.
 
+# Algoritmos Escolhidos
+
+TODO
+
+# Parâmetros e Representação
+
+TODO
+
+# Como utilizar
+
+TODO
+
 # Referências
 
 - ***OpenABM-Covid19**: an agent-based model for modelling the spread of SARS-CoV-2 (coronavirus) and control interventions for the Covid-19 epidemic*: https://github.com/BDI-pathogens/OpenABM-Covid19
