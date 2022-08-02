@@ -4,7 +4,7 @@ Esse projeto aplica diferentes algoritmos evolucionários para calibração de p
 
 ## Objetivo
 
-O intuito é compreender qual conjunto de parâmetros do modelo melhor descreve o cenário brasileiro e como políticas públicas não-farmacológicas poderiam ter influenciado esse cenário. Em especial, o objetivo é calibrar o modelo para os dados de COVID-19 apresentados pela cidade do **Recife/PE** no mês de **Janeiro de 2022** (X/01/2022 a Y/01/2022).
+O intuito é compreender qual conjunto de parâmetros do modelo melhor descreve o cenário brasileiro e como políticas públicas não-farmacológicas poderiam ter influenciado esse cenário. Em especial, o objetivo é calibrar o modelo para os dados de COVID-19 apresentados pela cidade do **Recife/PE** no mês de **Janeiro de 2022** (01/01 a 31/01).
 
 ## Agent-Based Modelling (ABM)
 
@@ -73,7 +73,26 @@ Os seguintes parâmetros foram calibrados manualmente:
 
 Demais parâmetros são mantidos os valores padrão do simulador.
 
+## Representação
+
+Para utilizar os algoritmos evolucionários selecionados, faz-se necessário modelar o problema de calibração como um problema de otimização. Nesse sentido, precisamos definir a **função objetiva** e a representação das **soluções**.
+
+As soluções (ou *candidatos*) serão representadas como um vetor $\bm{\mathrm{x}} \in \mathbb{R}^{15}$ de números reais, onde cada uma das componentes representa um dos parâmetros a serem calibrados. Entretanto, um função de mapeamento $\phi: \mathbb{R}^{15} \to D$ é utilizada para mapear o vetor de número reais ao conjunto $D = \mathbb{R}^4 \times \mathbb{N}^{11}$ de possíveis combinação entre os parâmetros.
+
+A função objetiva $f: \mathbb{R}^{15} \to \mathbb{R}$ é definida da seguinte forma:
+
+$f(\bm{\mathrm{x}}) = \left((g\circ \phi)(\bm{\mathrm{x}}) - \hat{Y}\right)^2$, onde $\phi$ é a função de mapeamento, $g: D \to \mathbb{N}$ produz a quantidade cumulativa de infectados usando os parâmetros $\phi(\bm{\mathrm{x}})$ no simulador, e $\hat{Y}$ é o valor real da quantidade de infectados.
+
 # Conjunto de Dados
+
+O conjunto de dados utilizados nesse trabalho incluem os seguintes:
+
+- Dados da COVID-19 no Estado de Pernambuco **(SEPLAG/PE)**: https://dados.seplag.pe.gov.br/apps/corona.html
+  - Usados para definição da função objetiva.
+- Dados Demográficos do Recife **(IBGE)**: https://cidades.ibge.gov.br/brasil/pe/recife/panorama
+  - Usado para calibração manual dos parâmetros.
+- Distribuição da População do Recife **(IBGE, CENSO 2010)**: https://censo2010.ibge.gov.br/sinopse/webservice/frm_piramide.php?codigo=261160
+  - Usado para calibração manual dos parâmetros.
 
 # Como utilizar
 
