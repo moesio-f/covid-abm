@@ -77,11 +77,11 @@ Demais parâmetros são mantidos os valores padrão do simulador.
 
 Para utilizar os algoritmos evolucionários selecionados, faz-se necessário modelar o problema de calibração como um problema de otimização. Nesse sentido, precisamos definir a **função objetiva** e a representação das **soluções**.
 
-As soluções (ou *candidatos*) serão representadas como um vetor $\bm{\mathrm{x}} \in \mathbb{R}^{15}$ de números reais, onde cada uma das componentes representa um dos parâmetros a serem calibrados. Entretanto, um função de mapeamento $\phi: \mathbb{R}^{15} \to D$ é utilizada para mapear o vetor de número reais ao conjunto $D = \mathbb{R}^4 \times \mathbb{N}^{11}$ de possíveis combinação entre os parâmetros.
+As soluções (ou *candidatos*) serão representadas como um vetor $\mathrm{x} \in \mathbb{R}^{15}$ de números reais, onde cada uma das componentes representa um dos parâmetros a serem calibrados. Entretanto, um função de mapeamento $\phi: \mathbb{R}^{15} \to D$ é utilizada para mapear o vetor de número reais ao conjunto $D = \mathbb{R}^4 \times \mathbb{N}^{11}$ de possíveis combinação entre os parâmetros.
 
 A função objetiva $f: \mathbb{R}^{15} \to \mathbb{R}$ é definida da seguinte forma:
 
-$f(\bm{\mathrm{x}}) = \left((g\circ \phi)(\bm{\mathrm{x}}) - \hat{Y}\right)^2$, onde $\phi$ é a função de mapeamento, $g: D \to \mathbb{N}$ produz a quantidade cumulativa de infectados usando os parâmetros $\phi(\bm{\mathrm{x}})$ no simulador, e $\hat{Y}$ é o valor real da quantidade de infectados.
+$f(\mathrm{x}) = \left((g\circ \phi)(\mathrm{x}) - \hat{Y}\right)^2$, onde $\phi$ é a função de mapeamento, $g: D \to \mathbb{N}$ produz a quantidade cumulativa de infectados usando os parâmetros $\phi(\mathrm{x})$ no simulador, e $\hat{Y}$ é o valor real da quantidade de infectados.
 
 # Conjunto de Dados
 
