@@ -2,10 +2,11 @@
 Módulo de utilidades.
 """
 
-import typing
+from dataclasses import dataclass, fields
 
 
-class Parameters(typing.NamedTuple):
+@dataclass(frozen=True)
+class Parameters:
     """
     Essa classe representa os parâmetros passados
     ao ABM.
@@ -26,3 +27,7 @@ class Parameters(typing.NamedTuple):
     successive_lockdown_duration: int
     successive_lockdown_gap: int
     successive_lockdown_time_on: int
+
+    def dict(self):
+        return {field.name: getattr(self, field.name)
+                for field in fields(self)}

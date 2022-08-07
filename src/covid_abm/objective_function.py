@@ -5,18 +5,22 @@ Módulo que define a função objetiva utilizada.
 import numpy as np
 from COVID19 import model, simulation
 
-from covid_abm.utils import Parameters
+from covid_abm import mapper_function as mapper
 
 ACC_CASES = 4523
 
 
-def quadratic_error(solution: np.array):
-    params = model.Parameters(input_param_file="./data/params.csv",
+def quadratic_error(solution: np.array,
+                    input_params: str = "./data/params.csv",
+                    output_dir: str = "./data/output") -> float:
+    params = model.Parameters(input_param_file=input_params,
                               param_line_number=1,
-                              output_file_dir="./data_test",)
-    params.set_param("n_total", 10000)
-    params.set_param("end_time", 20)
+                              output_file_dir=output_dir)
+    params.set_param("rng_seed", int(np.random.uniform(low=0, high=9999999)))
+    end_time = params.get_param("end_time")
+    params.set_param_dict(mapper.default_mapper(solution).dict())
+
     m = simulation.COVID19IBM(model=model.Model(params))
-    s = simulation.Simulation(m)
-    s.start_simulation()
+    s = simulation.Simulation(env=m, end_time=end_time)
+    s.steps(end_time)
     print(s.results)
