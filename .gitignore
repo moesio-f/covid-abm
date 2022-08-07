@@ -1,6 +1,9 @@
 # VSCode
 .vscode/
 
+# Python
+venv/
+
 # Maven
 out/
 target/
