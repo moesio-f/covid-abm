@@ -23,4 +23,9 @@ def quadratic_error(solution: np.array,
     m = simulation.COVID19IBM(model=model.Model(params))
     s = simulation.Simulation(env=m, end_time=end_time)
     s.steps(end_time)
-    print(s.results)
+
+    return float((_extract_acc(s) - ACC_CASES)) ** 2
+
+
+def _extract_acc(s: simulation.Simulation) -> int:
+    return s.results.get('total_infected')[-1]
