@@ -26,7 +26,7 @@ def pso(fn,
 
     bs, bf = model.solve(mode="swarm")
 
-    return bs, bf
+    return model, bs, bf
 
 
 def _termination_from_max_fe(max_fe: int) -> typing.Dict:
@@ -50,4 +50,8 @@ def _fn_as_problem(fn) -> typing.Dict:
 
 
 if __name__ == '__main__':
-    print(pso(quadratic_error, 10, 20))
+    pso_model, pso_bs, pso_bf = pso(quadratic_error,
+                                    10,
+                                    30)
+    pso_model.history.save_global_best_fitness_chart(
+        filename="pso_best_fitness")
