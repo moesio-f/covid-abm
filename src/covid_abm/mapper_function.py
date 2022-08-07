@@ -21,7 +21,4 @@ def default_mapper(solution) -> utils.Parameters:
                             lockdown_time_on=1,
                             lockdown_elderly_time_on=1,
                             lockdown_time_off=1,
-                            lockdown_elderly_time_off=1,
-                            successive_lockdown_duration=1,
-                            successive_lockdown_gap=1,
-                            successive_lockdown_time_on=1)
+                            lockdown_elderly_time_off=1)

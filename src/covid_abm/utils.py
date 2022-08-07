@@ -24,9 +24,6 @@ class Parameters:
     lockdown_elderly_time_on: int
     lockdown_time_off: int
     lockdown_elderly_time_off: int
-    successive_lockdown_duration: int
-    successive_lockdown_gap: int
-    successive_lockdown_time_on: int
 
     def dict(self):
         return {field.name: getattr(self, field.name)
