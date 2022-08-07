@@ -28,23 +28,19 @@ O OpenABM-Covid19 é um modelo baseado em agentes desenvolvido para simular a tr
 
 # Parâmetros e Representação
 
-O OpenABM-Covid19 possui um total de 217 parâmetros de entrada, uma descrição desses parâmetros pode ser encontrada no [repositório oficial](https://github.com/BDI-pathogens/OpenABM-Covid19/blob/master/documentation/parameters/parameter_dictionary.md). Para tornar o problema factível aos recursos disponíveis, os seguintes parâmetros (13) serão considerados para calibração automática:
+O OpenABM-Covid19 possui um total de 217 parâmetros de entrada, uma descrição desses parâmetros pode ser encontrada no [repositório oficial](https://github.com/BDI-pathogens/OpenABM-Covid19/blob/master/documentation/parameters/parameter_dictionary.md). Para tornar o problema factível aos recursos disponíveis, os seguintes parâmetros (9) serão considerados para calibração automática:
 
 | Nome | Descrição | 
 |  ---- | ---- |
+| `infectious_rate` | Quantidade média de indivíduos infectados por um indivíduo positivo sintomático. |
 | `mean_work_interactions_child` | Média de interações na escola (0-19 anos). |
 | `mean_work_interactions_adult` | Média de interações na escola/trabalho (20-69 anos). | 
 | `mean_work_interactions_elderly` | Média de interações na escola/trabalho (70+ anos). |
-| `infectious_rate` | Quantidade média de indivíduos infectados por um indivíduo positivo sintomático. |
 | `n_seed_infection` | Quantidade de infectados no início do experimento |
 | `quarantine_length_self` | Número máximo de dias para indivíduos sintomáticos (análise própria). |
 | `quarantine_length_traced_symptoms`| Número máximo de dias para indivíduos contactes com casos suspeitos. |
 | `quarantine_length_traced_positive` | Número máximo de dias para indivíduos contactantes com casos confirmados. |
 | `quarantine_length_positive` | Número máximo de dias para indivíduos positivados. |
-| `lockdown_time_on`| Tempo (dias) do início do lockdown. |
-| `lockdown_elderly_time_on` | Tempo (dias) do início do lockdown para idosos. |
-| `lockdown_time_off`| Tempo (dias) do término do lockdown. |
-| `lockdown_elderly_time_off` | Tempo (dias) do término do lockdown para idosos. |
 
 Os seguintes parâmetros foram calibrados/escolhidos manualmente:
 
@@ -74,9 +70,9 @@ Demais parâmetros são mantidos os valores padrão do simulador.
 
 Para utilizar os algoritmos evolucionários selecionados, faz-se necessário modelar o problema de calibração como um problema de otimização contínua. Nesse sentido, precisamos definir a **função objetiva** e a representação das **soluções**.
 
-As soluções (ou *candidatos*) serão representadas como um vetor $\mathrm{x} \in \mathbb{R}^{13}$ de números reais, onde cada uma das componentes representa um dos parâmetros a serem calibrados. Entretanto, um função de mapeamento $\phi: \mathbb{R}^{13} \to D$ é utilizada para mapear o vetor de número reais ao conjunto $D = \mathbb{R}^4 \times \mathbb{N}^{9}$ de possíveis combinação entre os parâmetros.
+As soluções (ou *candidatos*) serão representadas como um vetor $\mathrm{x} \in \mathbb{R}^{9}$ de números reais, onde cada uma das componentes representa um dos parâmetros a serem calibrados. Entretanto, um função de mapeamento $\phi: \mathbb{R}^{9} \to D$ é utilizada para mapear o vetor de número reais ao conjunto $D = \mathbb{R} \times \mathbb{N}^{8}$ de possíveis combinação entre os parâmetros.
 
-O objetivo é encontrar o conjunto de parâmetros que melhor se aproxima do acumulado de casos positivos nesse período. Dessa forma, a função objetiva $f: \mathbb{R}^{13} \to \mathbb{R}$ é definida da seguinte forma:
+O objetivo é encontrar o conjunto de parâmetros que melhor se aproxima do acumulado de casos positivos nesse período. Dessa forma, a função objetiva $f: \mathbb{R}^{9} \to \mathbb{R}$ é definida da seguinte forma:
 
 $f(\mathrm{x}) = \left((g\circ \phi)(\mathrm{x}) - \hat{Y}\right)^2$, onde $\phi$ é a função de mapeamento, $g: D \to \mathbb{N}$ produz a quantidade cumulativa de infectados usando os parâmetros $\phi(\mathrm{x})$ no simulador, e $\hat{Y}$ é o valor real da quantidade de infectados.
 

@@ -13,7 +13,7 @@ from covid_abm import utils
 def default_mapper(solution) -> utils.Parameters:
     solution = _solution_to_list(solution)
     int_sol = list(map(round, solution))
-    assert len(solution) == 13
+    assert len(solution) == 9
 
     return utils.Parameters(infectious_rate=solution[0],
                             mean_work_interactions_child=int_sol[1],
@@ -23,11 +23,7 @@ def default_mapper(solution) -> utils.Parameters:
                             quarantine_length_self=int_sol[5],
                             quarantine_length_traced_symptoms=int_sol[6],
                             quarantine_length_traced_positive=int_sol[7],
-                            quarantine_length_positive=int_sol[8],
-                            lockdown_time_on=int_sol[9],
-                            lockdown_elderly_time_on=int_sol[10],
-                            lockdown_time_off=int_sol[11],
-                            lockdown_elderly_time_off=int_sol[12])
+                            quarantine_length_positive=int_sol[8])
 
 
 def _solution_to_list(solution):

@@ -10,9 +10,17 @@ from covid_abm import mapper_function as mapper
 ACC_CASES = 4523
 
 
-def quadratic_error(solution,
+def quadratic_error(solution) -> float:
+    return (_run_simulation(solution) - ACC_CASES) ** 2
+
+
+def abs_error(solution) -> float:
+    return abs(_run_simulation(solution) - ACC_CASES)
+
+
+def _run_simulation(solution,
                     input_params: str = "./data/params.csv",
-                    output_dir: str = "./data/output") -> float:
+                    output_dir: str = "./data/output"):
     params = model.Parameters(input_param_file=input_params,
                               param_line_number=1,
                               output_file_dir=output_dir)
@@ -25,14 +33,10 @@ def quadratic_error(solution,
     s.steps(end_time)
 
     acc = _extract_acc(s)
-    error = float(acc - ACC_CASES) ** 2
 
-    print('solution: ', solution)
-    print('error: ', error)
-    print('acc: ', acc)
-    print('')
-
-    return error
+    print('solution:', solution)
+    print('acc:', acc)
+    return acc
 
 
 def _extract_acc(s: simulation.Simulation) -> int:
