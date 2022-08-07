@@ -24,8 +24,15 @@ def quadratic_error(solution,
     s = simulation.Simulation(env=m, end_time=end_time)
     s.steps(end_time)
 
-    print(s.results)
-    return float(_extract_acc(s) - ACC_CASES) ** 2
+    acc = _extract_acc(s)
+    error = float(acc - ACC_CASES) ** 2
+
+    print('solution: ', solution)
+    print('error: ', error)
+    print('acc: ', acc)
+    print('')
+
+    return error
 
 
 def _extract_acc(s: simulation.Simulation) -> int:

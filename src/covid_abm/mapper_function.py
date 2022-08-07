@@ -15,10 +15,10 @@ def default_mapper(solution) -> utils.Parameters:
     int_sol = list(map(round, solution))
     assert len(solution) == 13
 
-    return utils.Parameters(mean_work_interactions_child=solution[0],
-                            mean_work_interactions_adult=solution[1],
-                            mean_work_interactions_elderly=solution[2],
-                            infectious_rate=solution[3],
+    return utils.Parameters(infectious_rate=solution[0],
+                            mean_work_interactions_child=int_sol[1],
+                            mean_work_interactions_adult=int_sol[2],
+                            mean_work_interactions_elderly=int_sol[3],
                             n_seed_infection=int_sol[4],
                             quarantine_length_self=int_sol[5],
                             quarantine_length_traced_symptoms=int_sol[6],
@@ -33,7 +33,7 @@ def default_mapper(solution) -> utils.Parameters:
 def _solution_to_list(solution):
     if isinstance(solution, list):
         return solution
-    elif isinstance(solution, np.array):
+    elif isinstance(solution, np.ndarray):
         return solution.tolist()
 
     return list(solution)

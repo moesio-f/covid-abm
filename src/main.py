@@ -1,5 +1,53 @@
+"""
+Executa todos os algoritmos para calibração do ABM.
+"""
+
+import typing
+
+from mealpy.swarm_based.PSO import BasePSO
+from mealpy.evolutionary_based.DE import SHADE
 
 from covid_abm.objective_function import quadratic_error
 
+
+def pso(fn,
+        pop_size: int,
+        max_fe: int):
+
+    epoch = 10000
+    termination = _termination_from_max_fe(max_fe)
+    problem = _fn_as_problem(fn)
+
+    model = BasePSO(problem,
+                    epoch=epoch,
+                    pop_size=pop_size,
+                    termination=termination,
+                    mode="swarm")
+
+    bs, bf = model.solve(mode="swarm")
+
+    return bs, bf
+
+
+def _termination_from_max_fe(max_fe: int) -> typing.Dict:
+    return {
+        "mode": "FE",
+        "quantity": max_fe
+    }
+
+
+def _fn_as_problem(fn) -> typing.Dict:
+    return {
+        "fit_func": fn,
+        "lb": [0.0] * 13,
+        "ub": [20.0] + [50] * 3 + [1000] + [21.0] * 8,
+        "minmax": "min",
+        "n_dims": 13,
+        "verbose": True,
+        "save_population": False,
+        "log_to": "console"
+    }
+
+
 if __name__ == '__main__':
-    print(quadratic_error([0.1, 0.2, 0.3, 0.4, 500] + [100] * (13 - 5)))
+    print(pso(quadratic_error, 10, 20))
