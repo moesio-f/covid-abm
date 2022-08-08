@@ -6,6 +6,7 @@ import typing
 
 from mealpy.swarm_based.PSO import BasePSO
 from mealpy.evolutionary_based.DE import SHADE
+from mealpy.swarm_based.ACOR import BaseACOR
 
 from covid_abm.objective_function import quadratic_error
 
@@ -48,6 +49,26 @@ def shade(fn,
     return model, bs, bf
 
 
+def acor(fn,
+         pop_size: int,
+         max_fe: int):
+
+    epoch = 10000
+    termination = _termination_from_max_fe(max_fe)
+    problem = _fn_as_problem(fn)
+
+    model = BaseACOR(problem,
+                     epoch=epoch,
+                     pop_size=pop_size,
+                     sample_count=2,
+                     termination=termination,
+                     mode="swarm")
+
+    bs, bf = model.solve(mode="swarm")
+
+    return model, bs, bf
+
+
 def _termination_from_max_fe(max_fe: int) -> typing.Dict:
     return {
         "mode": "FE",
@@ -69,10 +90,10 @@ def _fn_as_problem(fn) -> typing.Dict:
 
 
 if __name__ == '__main__':
-    shade_model, shade_bs, shade_bf = shade(quadratic_error,
-                                            10,
-                                            30)
+    shade_model, shade_bs, shade_bf = acor(quadratic_error,
+                                           10,
+                                           30)
     print(shade_bs)
     print(shade_bf)
     shade_model.history.save_global_best_fitness_chart(
-        filename="shade_best_fitness")
+        filename="acor_best_fitness")
