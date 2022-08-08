@@ -9,6 +9,7 @@ import numpy as np
 from COVID19 import model, simulation
 
 from covid_abm import mapper_function as mapper
+from covid_abm import utils
 
 _ACC_CASES = [679, 1667, 2035, 2380, 2919, 3544, 4319]
 
@@ -54,7 +55,7 @@ def mae() -> ObjectiveFunction:
 
 
 def _run_simulation(solution,
-                    input_params: str = str(_PARAMS)) -> typing.List[int]:
+                    input_params: str = str(utils._PARAMS)) -> typing.List[int]:
     params = model.Parameters(input_param_file=input_params,
                               param_line_number=1)
     params.set_param("rng_seed", 1)
