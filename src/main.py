@@ -29,6 +29,25 @@ def pso(fn,
     return model, bs, bf
 
 
+def shade(fn,
+          pop_size: int,
+          max_fe: int):
+
+    epoch = 10000
+    termination = _termination_from_max_fe(max_fe)
+    problem = _fn_as_problem(fn)
+
+    model = SHADE(problem,
+                  epoch=epoch,
+                  pop_size=pop_size,
+                  termination=termination,
+                  mode="swarm")
+
+    bs, bf = model.solve(mode="swarm")
+
+    return model, bs, bf
+
+
 def _termination_from_max_fe(max_fe: int) -> typing.Dict:
     return {
         "mode": "FE",
@@ -50,10 +69,10 @@ def _fn_as_problem(fn) -> typing.Dict:
 
 
 if __name__ == '__main__':
-    pso_model, pso_bs, pso_bf = pso(quadratic_error,
-                                    10,
-                                    30)
-    print(pso_bs)
-    print(pso_bf)
-    pso_model.history.save_global_best_fitness_chart(
-        filename="pso_best_fitness")
+    shade_model, shade_bs, shade_bf = shade(quadratic_error,
+                                            10,
+                                            30)
+    print(shade_bs)
+    print(shade_bf)
+    shade_model.history.save_global_best_fitness_chart(
+        filename="shade_best_fitness")
