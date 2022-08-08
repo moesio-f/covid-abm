@@ -2,6 +2,8 @@
 Módulo que define a função objetiva utilizada.
 """
 
+import os
+import pathlib
 import typing
 from dataclasses import dataclass
 
@@ -10,7 +12,14 @@ from COVID19 import model, simulation
 
 from covid_abm import mapper_function as mapper
 
-ACC_CASES = [679, 1667, 2035, 2380, 2919, 3544, 4319]
+
+_FPATH: pathlib.Path = pathlib.Path(__file__).parent.resolve()
+_SRC_PATH: pathlib.Path = FPATH.parent.resolve()
+_ROOT: pathlib.Path = SRC_PATH.parent.resolve()
+_DATA_PATH = _ROOT.joinpath('data/')
+_PARAMS = _DATA_PATH.joinpath('params.csv')
+
+_ACC_CASES = [679, 1667, 2035, 2380, 2919, 3544, 4319]
 
 
 @dataclass
@@ -26,7 +35,7 @@ def rmse() -> ObjectiveFunction:
         n = len(sim_acc)
 
         # Calcular erro
-        error = np.array(sim_acc) - np.array(ACC_CASES)
+        error = np.array(sim_acc) - np.array(_ACC_CASES)
         squared = error ** 2
         sum_ = np.sum(squared)
         mean = sum_ / n
@@ -43,7 +52,7 @@ def mae() -> ObjectiveFunction:
         n = len(sim_acc)
 
         # Calcular erro
-        error = np.array(sim_acc) - np.array(ACC_CASES)
+        error = np.array(sim_acc) - np.array(_ACC_CASES)
         absolute = np.abs(error)
         sum_ = np.sum(squared)
         mean = sum_ / n
@@ -54,7 +63,7 @@ def mae() -> ObjectiveFunction:
 
 
 def _run_simulation(solution,
-                    input_params: str = "./data/params.csv",
+                    input_params: str = str(_PARAMS),
                     output_dir: str = "./data/output") -> typing.List[int]:
     params = model.Parameters(input_param_file=input_params,
                               param_line_number=1,
