@@ -92,7 +92,7 @@ def _fn_as_problem(fn) -> typing.Dict:
 if __name__ == '__main__':
     shade_model, shade_bs, shade_bf = acor(quadratic_error,
                                            10,
-                                           30)
+                                           41)
     print(shade_bs)
     print(shade_bf)
     shade_model.history.save_global_best_fitness_chart(
