@@ -2,16 +2,15 @@
 Módulo dos algoritmos.
 """
 
-import os
+import pathlib
 import typing
 
-from mealpy.swarm_based.PSO import BasePSO
 from mealpy.evolutionary_based.DE import SHADE
 from mealpy.swarm_based.ACOR import BaseACOR
+from mealpy.swarm_based.PSO import BasePSO
 
+from covid_abm import utils
 from covid_abm.objective_function import ObjectiveFunction
-
-RESULTS_DIR = os.path.abspath("results/")
 
 
 def pso(fn: ObjectiveFunction,
@@ -84,7 +83,9 @@ def _termination_max_gen(gens: int) -> typing.Dict:
 
 def _fn_as_problem(fn: ObjectiveFunction, fname: str) -> typing.Dict:
     filename = f"{fname}-{fn.name}.log"
-    log_file = os.path.join(RESULTS_DIR, filename)
+    log_file: pathlib.Path = utils._RESULTS_DIR.joinpath(filename)
+    log_file.parent.mkdir(exist_ok=True, parents=True)
+    log_file.write_text("")
 
     return {
         "fit_func": fn.fn,

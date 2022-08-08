@@ -2,7 +2,16 @@
 Módulo de utilidades.
 """
 
+import os
+import pathlib
 from dataclasses import dataclass, fields
+
+_FPATH: pathlib.Path = pathlib.Path(__file__).parent.resolve()
+_SRC_PATH: pathlib.Path = _FPATH.parent.resolve()
+_ROOT: pathlib.Path = _SRC_PATH.parent.resolve()
+_DATA_PATH: pathlib.Path = _ROOT.joinpath('data/')
+_PARAMS: pathlib.Path = _DATA_PATH.joinpath('params.csv')
+_RESULTS_DIR = _ROOT.joinpath('results/')
 
 
 @dataclass(frozen=True)

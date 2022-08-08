@@ -2,8 +2,6 @@
 Módulo que define a função objetiva utilizada.
 """
 
-import os
-import pathlib
 import typing
 from dataclasses import dataclass
 
@@ -11,13 +9,6 @@ import numpy as np
 from COVID19 import model, simulation
 
 from covid_abm import mapper_function as mapper
-
-
-_FPATH: pathlib.Path = pathlib.Path(__file__).parent.resolve()
-_SRC_PATH: pathlib.Path = FPATH.parent.resolve()
-_ROOT: pathlib.Path = SRC_PATH.parent.resolve()
-_DATA_PATH = _ROOT.joinpath('data/')
-_PARAMS = _DATA_PATH.joinpath('params.csv')
 
 _ACC_CASES = [679, 1667, 2035, 2380, 2919, 3544, 4319]
 
@@ -63,11 +54,9 @@ def mae() -> ObjectiveFunction:
 
 
 def _run_simulation(solution,
-                    input_params: str = str(_PARAMS),
-                    output_dir: str = "./data/output") -> typing.List[int]:
+                    input_params: str = str(_PARAMS)) -> typing.List[int]:
     params = model.Parameters(input_param_file=input_params,
-                              param_line_number=1,
-                              output_file_dir=output_dir)
+                              param_line_number=1)
     params.set_param("rng_seed", 1)
     end_time = params.get_param("end_time")
     params.set_param_dict(mapper.default_mapper(solution).dict())
