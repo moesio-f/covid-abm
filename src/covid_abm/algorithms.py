@@ -28,7 +28,10 @@ def pso(fn: ObjectiveFunction,
                     mode="swarm")
 
     bs, bf = model.solve(mode="swarm")
-    model.save_global_best_fitness_chart(filename="pso_convergence.png")
+    model.history.save_global_best_fitness_chart(
+        filename="pso_convergence.png")
+    model.history.save_local_best_fitness_chart(
+        filename="local_pso.png")
 
     return model, bs, bf
 
@@ -48,7 +51,10 @@ def shade(fn: ObjectiveFunction,
                   mode="swarm")
 
     bs, bf = model.solve(mode="swarm")
-    model.save_global_best_fitness_chart(filename="shade_convergence.png")
+    model.history.save_global_best_fitness_chart(
+        filename="shade_convergence.png")
+    model.history.save_local_best_fitness_chart(
+        filename="local_shade.png")
 
     return model, bs, bf
 
@@ -69,7 +75,10 @@ def acor(fn: ObjectiveFunction,
                      mode="swarm")
 
     bs, bf = model.solve(mode="swarm")
-    model.save_global_best_fitness_chart(filename="acor_convergence.png")
+    model.history.save_global_best_fitness_chart(
+        filename="acor_convergence.png")
+    model.history.save_local_best_fitness_chart(
+        filename="local_acor_convergence.png")
 
     return model, bs, bf
 
@@ -83,7 +92,8 @@ def _termination_max_gen(gens: int) -> typing.Dict:
 
 def _fn_as_problem(fn: ObjectiveFunction, fname: str) -> typing.Dict:
     filename = f"{fname}-{fn.name}.log"
-    log_file: pathlib.Path = utils._RESULTS_DIR.joinpath(filename)
+    log_path: pathlib.Path = utils._RESULTS_DIR.joinpath('logs')
+    log_file: pathlib.Path = log_path.joinpath(filename)
     log_file.parent.mkdir(exist_ok=True, parents=True)
     log_file.write_text("")
 
