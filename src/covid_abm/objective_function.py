@@ -46,7 +46,7 @@ def mae() -> ObjectiveFunction:
         # Calcular erro
         error = np.array(sim_acc) - np.array(_ACC_CASES)
         absolute = np.abs(error)
-        sum_ = np.sum(squared)
+        sum_ = np.sum(absolute)
         mean = sum_ / n
 
         return mean
