@@ -4,7 +4,7 @@ Esse projeto aplica diferentes algoritmos evolucionários para calibração de p
 
 ## Objetivo
 
-O intuito é compreender qual conjunto de parâmetros do modelo melhor descreve o cenário brasileiro e como políticas públicas não-farmacológicas poderiam ter influenciado esse cenário. Em especial, o objetivo é calibrar o modelo para os dados de COVID-19 apresentados pela cidade do **Recife/PE** para o período de 21/01/2022 a 28/01/2022.
+O intuito é compreender qual conjunto de parâmetros do modelo melhor descreve o cenário brasileiro e como políticas públicas não-farmacológicas poderiam ter influenciado esse cenário. Em especial, o objetivo é calibrar o modelo para os dados de COVID-19 apresentados pela cidade do **Recife/PE** para o período de 21/01/2022 a 27/01/2022.
 
 ## Agent-Based Modelling (ABM)
 
@@ -72,11 +72,32 @@ Para utilizar os algoritmos evolucionários selecionados, faz-se necessário mod
 
 As soluções (ou *candidatos*) serão representadas como um vetor $\mathrm{x} \in \mathbb{R}^{9}$ de números reais, onde cada uma das componentes representa um dos parâmetros a serem calibrados. Entretanto, um função de mapeamento $\phi: \mathbb{R}^{9} \to D$ é utilizada para mapear o vetor de número reais ao conjunto $D = \mathbb{R} \times \mathbb{N}^{8}$ de possíveis combinação entre os parâmetros.
 
-O objetivo é encontrar o conjunto de parâmetros que melhor se aproxima do acumulado de casos positivos nesse período. Dessa forma, a função objetiva $f: \mathbb{R}^{9} \to \mathbb{R}$ é definida da seguinte forma:
+O objetivo é encontrar o conjunto de parâmetros que melhor se aproxima do acumulado de casos positivos nesse período. Dessa forma, a função objetiva $f: \mathbb{R}^{9} \to \mathbb{R}$ pode ser definida das seguintes formas:
 
-$f(\mathrm{x}) = \left((g\circ \phi)(\mathrm{x}) - \hat{Y}\right)^2$, onde $\phi$ é a função de mapeamento, $g: D \to \mathbb{N}$ produz a quantidade cumulativa de infectados usando os parâmetros $\phi(\mathrm{x})$ no simulador, e $\hat{Y}$ é o valor real da quantidade de infectados.
+- $f(\mathrm{x}) = \sqrt{\frac{\sum\limits_{i=1}^7 \left((g\circ \phi)(\mathrm{x})_i - \hat{Y}_i\right)^2}{7}}$, função RMSE (*Root-Mean-Squared Error*) considerando o total de infectados para cada um dos dias;
+- $f(\mathrm{x}) = \frac{\sum\limits_{i=1}^7 \left|(g\circ \phi)(\mathrm{x})_i - \hat{Y}_i\right|}{7}$, função MAE (*Mean Absolute Error*) considerando o total de infectados para cada um dos dias;
 
-De acordo com os dados disponibilizados pela Secretaria Estadual de Saúde de Pernambuco (SES/PE), entre 21/01/2022 e 28/01/2022, a cidade do Recife registrou um total de $172.312 - 167.789 = 4.523$ novos casos.
+Onde:
+
+- $\phi$ é a função de mapeamento entre soluções e os parâmetros do ABM;
+- $(g\circ \phi)(\mathrm{x})$ é a sequência contendo a quantidade acumulado de infectados para cada um dos 7 dias usando os parâmetros $\phi(\mathrm{x})$ no ABM;
+  - Assim, $(g\circ \phi)(\mathrm{x})_i$ é a quantidade total de casos positivos para o dia $i$;
+- $\hat{Y}$ é a sequência com o valor real da quantidade de infectados para cada dia;
+  - Assim, $\hat{Y}_i$ é a quantidade real de casos positivos acumulados no dia $i$;
+
+De acordo com os dados disponibilizados pela Secretaria Estadual de Saúde de Pernambuco (SES/PE), entre 21/01/2022 e 27/01/2022, a cidade do Recife registrou um total de $171.429 - 167.110 = 4.319$ novos casos. A próxima tabela contém o total casos acumulados, a partir do dia 21/01/2022, para cada um dos dias nesse período.
+
+O cálculo de casos acumulados para um dado dia consiste em encontrar a quantidade de novos casos para aquele dia e somar com a quantidade de casos acumulados do dia anterior. Visto que estamos preocupados apenas com o período entre 21/01 e 27/01, os casos acumulados de datas anteriores serão considerados $0$.
+
+| Dia | Casos Acumulados |
+| --- | --- |
+21/01/2022 | $679$
+22/01/2022 | $1667$
+23/01/2022 | $2035$
+24/01/2022 | $2380$
+25/01/2022 | $2919$
+26/01/2022 | $3544$
+27/01/2022 | $4319$
 
 # Dados
 
